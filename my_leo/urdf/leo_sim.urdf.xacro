@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+       name="leo_rover">
+
+  <xacro:arg name="fixed" default="false"/>
+
+  <xacro:include filename="$(find my_leo)/urdf/macros.xacro"/>
+
+  <xacro:leo_sim fixed="$(arg fixed)"/>
+
+</robot>
