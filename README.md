@@ -22,7 +22,7 @@ Follow the instruction in your current terminal and... move it!
 
 You can also visualize the lidar scanning area, hope you enjoy it!
 
-2.18
+## 2.18 issue
 The problem is, we can't make the slam_toolbox publish the /map data
 Now, open another terminal,
 ```bash
