@@ -1,5 +1,6 @@
 # leo_simulation
 
+## kick off!
 For your smoothly setting out to launch the leo rover robot simulation, Faye, all you need to do is just clone this repository by opening your terminal and typing as follows:
 ```bash
 cd path/to/your/src
