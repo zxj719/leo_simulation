@@ -33,7 +33,7 @@ you'll notice the /map and /map_metadata as well, but if you look into it,
 ```bash
 ros2 topic echo /map
 ```
-/map didn't publish anything, through my debugging experience, I found that when recording
+/map didn't publish anything, through my debugging experience, I found that
 ```bash
 ros2 topic echo /tf
 ```
