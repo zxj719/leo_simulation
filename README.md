@@ -20,4 +20,23 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 Follow the instruction in your current terminal and... move it!
 
+You can also visualize the lidar scanning area, hope you enjoy it!
+
+2.18
+The problem is, we can't make the slam_toolbox publish the /map data
+Now, open another terminal,
+```bash
+ros2 topic list
+```
+you'll notice the /map and /map_metadata as well, but if you look into it,
+```bash
+ros2 topic echo /map
+```
+/map didn't publish anything, through my debugging experience, I found that when recording
+```bash
+ros2 topic echo /tf
+```
+missing the frame id map. I think it is likely the problem from the .urdf file, for I have checked the QoS compatibility.
+
+
 @ UoM-Robotics-Team4
