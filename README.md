@@ -24,7 +24,7 @@ Follow the instruction in your current terminal and... move it!
 You can also visualize the lidar scanning area, hope you enjoy it!
 
 ## 2.18 issue
-The problem is, we can't make the slam_toolbox publish the /map data
+The problem is, we can't make the slam_toolbox publish the /map data. In other words, slam_toolbox fails to provide the map->odom transform.
 Now, open another terminal,
 ```bash
 ros2 topic list
@@ -37,7 +37,8 @@ ros2 topic echo /map
 ```bash
 ros2 topic echo /tf
 ```
-missing the frame id map. I think it is likely the problem from the .urdf file, for I have checked the QoS compatibility.
+missing the frame id map. I think it is likely the problem from the .urdf file, or you can check the launch file.
+
 
 
 @ UoM-Robotics-Team4
