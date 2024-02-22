@@ -43,6 +43,10 @@ Next command might be useful if you want to check the transformation between 2 f
 ```bash
 ros2 run tf2_ros tf2_echo base_link[reference_frame] lidar_link[target_frame]
 ```
+and you can list all frames by:
+```bash
+ros2 run tf2_ros tf2_monitor
+```
 
 
 
