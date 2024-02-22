@@ -41,7 +41,7 @@ missing the frame id map. I think it is likely the problem from the .urdf file, 
 
 Next command might be useful if you want to check the transformation between 2 frames:
 ```bash
-ros2 run tf2_ros tf_echo base_link[reference_frame] lidar_link[target_frame]
+ros2 run tf2_ros tf2_echo base_link[reference_frame] lidar_link[target_frame]
 ```
 
 
