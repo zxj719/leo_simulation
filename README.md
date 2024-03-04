@@ -7,3 +7,8 @@
 ## 2. integreted control with slam and map_maker in one launch file.
 ## 3. added camera plugin
 ## 4. visualize in rviz but invisible for robot body.
+
+after launch my_leo.launch.py and map_maker.launch.py, new a terminal
+```bash
+ros2 service call /map_saver/save_map nav2_msgs/srv/SaveMap "map_url: './src/my_leo/maps/sim_map'"
+```
