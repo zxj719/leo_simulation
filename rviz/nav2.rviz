@@ -71,11 +71,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        chassis_link:
+        rocker_L_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        front_wheel:
+        rocker_R_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -84,17 +84,27 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_wheel:
+        wheel_FL_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        lidar_link:
+        wheel_RL_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_wheel:
+        wheel_RR_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rplidar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_FR_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false

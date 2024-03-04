@@ -4,10 +4,8 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
 from launch_ros.actions import Node, SetParameter
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
-import xacro
-import os
 
+import xacro
 
 def generate_launch_description():
     ld = LaunchDescription()
@@ -56,6 +54,7 @@ def generate_launch_description():
             {"robot_description": robot_desc},
         ],
     )
+
     # Spawn a robot inside a simulation
     leo_rover = Node(
         # namespace="leo_rover",
@@ -103,55 +102,36 @@ def generate_launch_description():
         output="screen",
     )
     
+    # Camera image bridge
+    image_bridge = Node(
+        package="ros_gz_image",
+        executable="image_bridge",
+        name="image_bridge",
+        arguments=["/model/leo_rover/camera/image_raw"],
+        remappings= [('/model/leo_rover/camera/image_raw',  '/camera/image_raw'),],
+        output="screen",
+    )
+
+    # Rviz node
+    node_rviz = Node(
+        package='rviz2',
+        namespace='',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d' + os.path.join(get_package_share_directory(pkg_name), 'rviz', 'nav2.rviz')]
+    )
+
     # Include SLAM Toolbox standard launch file
     launch_slamtoolbox = IncludeLaunchDescription(
     PythonLaunchDescriptionSource([get_package_share_directory('slam_toolbox'), '/launch', '/online_async_launch.py']),
     launch_arguments={}.items(),
     )
-    
-    # # Rviz node
-    # node_rviz = Node(
-    #     package='rviz2',
-    #     namespace='',
-    #     executable='rviz2',
-    #     name='rviz2',
-    #     arguments=['-d' + os.path.join(get_package_share_directory(pkg_name), 'rviz', 'nav2.rviz')]
-    # )
 
-    # # Camera image bridge
-    # image_bridge = Node(
-    #     package="ros_gz_image",
-    #     executable="image_bridge",
-    #     name="image_bridge",
-    #     arguments=["/camera/image_raw"],
-    #     output="screen",
-    # )
-    
-    # Bridge
-    # https://github.com/gazebosim/ros_gz/tree/humble/ros_gz_bridge
-    # node_ros_gz_bridge = Node(
-    #     package='ros_gz_bridge',
-    #     executable='parameter_bridge',
-    #     arguments=  [
-    #                 '/clock'                           + '@rosgraph_msgs/msg/Clock'   + '[' + 'ignition.msgs.Clock',
-    #                 '/model/gz_example_robot/cmd_vel'  + '@geometry_msgs/msg/Twist'   + '@' + 'ignition.msgs.Twist',
-    #                 '/model/gz_example_robot/odometry' + '@nav_msgs/msg/Odometry'     + '[' + 'ignition.msgs.Odometry',
-    #                 '/model/gz_example_robot/scan'     + '@sensor_msgs/msg/LaserScan' + '[' + 'ignition.msgs.LaserScan',
-    #                 '/model/gz_example_robot/tf'       + '@tf2_msgs/msg/TFMessage'    + '[' + 'ignition.msgs.Pose_V',
-    #                 '/model/gz_example_robot/imu'      + '@sensor_msgs/msg/Imu'       + '[' + 'ignition.msgs.IMU',
-    #                 '/world/empty/model/gz_example_robot/joint_state' + '@sensor_msgs/msg/JointState' + '[' + 'ignition.msgs.Model',
-    #                 ],
-    #     parameters= [{'qos_overrides./gz_example_robot.subscriber.reliability': 'reliable'}],
-    #     remappings= [
-    #                 ('/model/gz_example_robot/cmd_vel',  '/cmd_vel'),
-    #                 ('/model/gz_example_robot/odometry', '/odom'   ),
-    #                 ('/model/gz_example_robot/scan',     '/scan'   ),
-    #                 ('/model/gz_example_robot/tf',       '/tf'     ),
-    #                 ('/model/gz_example_robot/imu',      '/imu_raw'),
-    #                 ('/world/empty/model/gz_example_robot/joint_state', 'joint_states')
-    #                 ],
-    #     output='screen'
-    # )
+    launch_map_saver = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource([get_package_share_directory('nav2_map_server'), '/launch', '/map_saver_server.launch.py']),
+    launch_arguments={}.items(),
+    )
+
 
     # Add actions to LaunchDescription
     ld.add_action(SetParameter(name='use_sim_time', value=True))
@@ -161,7 +141,9 @@ def generate_launch_description():
     ld.add_action(robot_state_publisher)
     ld.add_action(leo_rover)
     ld.add_action(topic_bridge)
+    ld.add_action(image_bridge)
     ld.add_action(launch_slamtoolbox)
-    # ld.add_action(node_rviz)
-    # ld.add_action(image_bridge)
+    ld.add_action(launch_map_saver)
+    ld.add_action(node_rviz)
+    
     return ld

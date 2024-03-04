@@ -22,7 +22,7 @@ setup(
         (os.path.join('share', package_name, 'worlds'), glob(os.path.join('worlds', '**/**.[sd][da][fe]'), recursive=True)),
         (os.path.join('share', package_name, 'models'), glob(os.path.join('models', '*.[sd][ta][le]'))),
         # Include config (.yaml) files
-        (os.path.join('share', package_name, 'config'), glob(os.path.join('config', '*.*yaml*'))),
+        (os.path.join('share', package_name, 'config'), glob(os.path.join('config', '*.yaml'))),
 	    # Include map (.yaml and .pgm) files
         (os.path.join('share', package_name, 'maps'), glob(os.path.join('maps', '*.[yp][ag][m]'))),
     ],
