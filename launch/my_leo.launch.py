@@ -4,6 +4,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable
 from launch_ros.actions import Node, SetParameter
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import PathJoinSubstitution
 
 import xacro
 
@@ -12,7 +13,6 @@ def generate_launch_description():
 
     # Specify the name of the package and path to xacro file within the package
     pkg_name = 'my_leo'
-    # xacro_file = os.path.join(get_package_share_directory(pkg_name), 'urdf/diff_drive_simulation.urdf.xacro')
     
     # Set ignition resource path (so it can find your world files)
     ign_resource_path = SetEnvironmentVariable(name='IGN_GAZEBO_RESOURCE_PATH',
@@ -113,25 +113,33 @@ def generate_launch_description():
     )
 
     # Rviz node
-    node_rviz = Node(
-        package='rviz2',
-        namespace='',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d' + os.path.join(get_package_share_directory(pkg_name), 'rviz', 'nav2.rviz')]
-    )
-
-    # Include SLAM Toolbox standard launch file
-    launch_slamtoolbox = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource([get_package_share_directory('slam_toolbox'), '/launch', '/online_async_launch.py']),
+    node_rviz = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource([get_package_share_directory(pkg_name), '/launch', '/rviz_leo.launch.py']),
     launch_arguments={}.items(),
     )
 
-    launch_map_saver = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource([get_package_share_directory('nav2_map_server'), '/launch', '/map_saver_server.launch.py']),
+    launch_map_maker = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource([get_package_share_directory(pkg_name), '/launch', '/map_maker.launch.py']),
     launch_arguments={}.items(),
     )
 
+    twist_mux = Node(
+        package="twist_mux",
+        executable="twist_mux",
+        name="twist_mux",
+        
+        # parameters=[],
+    )
+
+    joy_stick = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource([get_package_share_directory(pkg_name), '/launch', '/teleop_joy.launch.py']),
+    launch_arguments={}.items(),
+    )
+
+    automous_exploration = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource([get_package_share_directory('explore_lite'), '/launch', '/explore.launch.py']),
+    launch_arguments={}.items(),
+    )
 
     # Add actions to LaunchDescription
     ld.add_action(SetParameter(name='use_sim_time', value=True))
@@ -142,8 +150,11 @@ def generate_launch_description():
     ld.add_action(leo_rover)
     ld.add_action(topic_bridge)
     ld.add_action(image_bridge)
-    ld.add_action(launch_slamtoolbox)
-    ld.add_action(launch_map_saver)
-    ld.add_action(node_rviz)
+    
+    ld.add_action(node_rviz)    
+    ld.add_action(launch_map_maker)
+    ld.add_action(joy_stick)
+    # ld.add_action(twist_mux)
+    # ld.add_action(automous_exploration)
     
     return ld

@@ -11,9 +11,6 @@ def generate_launch_description():
     ld = LaunchDescription()
     pkg_name = 'my_leo'
 
-    # LOAD PARAMETERS FROM YAML FILES
-    config_bt_nav = PathJoinSubstitution([get_package_share_directory(pkg_name), 'config', 'bt_nav.yaml'])
-
     # Include SLAM Toolbox standard launch file
     launch_slamtoolbox = IncludeLaunchDescription(
     PythonLaunchDescriptionSource([get_package_share_directory('slam_toolbox'), '/launch', '/online_async_launch.py']),
@@ -39,32 +36,79 @@ def generate_launch_description():
         remappings=[("/cmd_vel", "cmd_vel")],
     )
 
-    launch_node_joy_linux = Node(
-        package="joy_linux",
-        executable="joy_linux_node",
-        name="joy_linux_node",
-        parameters=[
-            {"dev": "/dev/input/js0"},
-            {"deadzone": "0.1"},
-            {"coalesce_interval": "0.05"},
-            {"autorepeat_rate": "10.0"},
-        ],
+    remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
+
+    lifecycle_nodes = [
+        'controller_server',
+        'planner_server',
+        'behaviour_server',
+        'bt_navigator',
+    ]
+
+    # LOAD PARAMETERS FROM YAML FILES
+    config_bt_nav     = PathJoinSubstitution([get_package_share_directory(pkg_name), 'config', 'bt_nav.yaml'])
+    config_planner    = PathJoinSubstitution([get_package_share_directory(pkg_name), 'config', 'planner.yaml'])
+    config_controller = PathJoinSubstitution([get_package_share_directory(pkg_name), 'config', 'controller.yaml'])
+
+    # Behaviour Tree Navigator
+    node_bt_nav = Node(
+        package='nav2_bt_navigator',
+        executable='bt_navigator',
+        name='bt_navigator',
+        output='screen',
+        # parameters=[config_bt_nav,{'default_nav_to_pose_bt_xml' : bt_xml_navtopose_file}],
+        parameters=[config_bt_nav],
+        remappings=remappings,
     )
 
-    launch_node_joy_teleop = Node(
-        package="teleop_twist_joy",
-        executable="teleop_node",
-        name="joy_teleop_node",
-        remappings=[("/cmd_vel", "cmd_vel")],
+    # Behaviour Tree Server
+    node_behaviour = Node(
+        package='nav2_behaviors',
+        executable='behavior_server',
+        name='behaviour_server',
+        output='screen',
         parameters=[config_bt_nav],
+        remappings=remappings,
+    )
+
+    # Planner Server Node
+    node_planner = Node(
+        package='nav2_planner',
+        executable='planner_server',
+        name='planner_server',
+        output='screen',
+        parameters=[config_planner],
+        remappings=remappings,
+    )
+
+    # Controller Server Node
+    node_controller = Node(
+        package='nav2_controller',
+        executable='controller_server',
+        name='controller_server',
+        output='screen',
+        parameters=[config_controller],
+        remappings=remappings,
+    )
+
+    # Lifecycle Node Manager to automatically start lifecycles nodes (from list)
+    node_lifecycle_manager = Node(
+        package='nav2_lifecycle_manager',
+        executable='lifecycle_manager',
+        name='lifecycle_manager_navigation',
+        output='screen',
+        parameters=[{'autostart': True}, {'node_names': lifecycle_nodes}],
     )
 
 
 
     ld.add_action(launch_slamtoolbox)
     ld.add_action(launch_map_saver)
-    ld.add_action(launch_key_teleop)
-    # ld.add_action(launch_node_joy_linux)
-    # ld.add_action(launch_node_joy_teleop)
+    # ld.add_action(launch_key_teleop)
+    ld.add_action(node_bt_nav)
+    ld.add_action(node_behaviour)
+    ld.add_action(node_planner)
+    ld.add_action(node_controller)
+    ld.add_action(node_lifecycle_manager)
 
     return ld

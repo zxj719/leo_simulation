@@ -62,6 +62,11 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        antenna_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base_footprint:
           Alpha: 1
           Show Axes: false
@@ -71,20 +76,34 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        camera_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        imu_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         rocker_L_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         rocker_R_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        imu_link:
+        wheel_FL_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        wheel_FL_link:
+          Value: true
+        wheel_FR_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -95,16 +114,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         wheel_RR_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        rplidar_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wheel_FR_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false

@@ -1,15 +1,46 @@
 <sdf version='1.5'>
-    <!-- Draw Circle -->
-    <model name='ros_symbol'>
-      <static>1</static>
-      <link name='symbol'>
+  <model name='ros_symbol'>
+    <static>1</static>
+    <link name='symbol'>
+      <!-- Draw Object -->
+        <collision name='box'>
+          <pose>1.79216 1.04958 0.03 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <!-- <max_contacts>10</max_contacts>
+          <surface>
+            <bounce/>
+            <friction>
+              <ode/>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+          </surface> -->
+        </collision>
+        <visual name='box'>
+        <pose>1.79216 1.04958 0.03 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.05 0.05 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 1 1 1</specular>
+          </material>
+        </visual>
+      <!-- Draw Circle -->
         <collision name='one_one'>
           <pose>-1.1 -1.1 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <max_contacts>10</max_contacts>
           <surface>
@@ -26,10 +57,9 @@
         <visual name='one_one'>
           <pose>-1.1 -1.1 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <material>
             <ambient>1 1 1 1</ambient>
@@ -41,10 +71,9 @@
         <collision name='one_two'>
           <pose>-1.1 0 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <max_contacts>10</max_contacts>
           <surface>
@@ -61,10 +90,9 @@
         <visual name='one_two'>
           <pose>-1.1 0 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <material>
             <ambient>1 1 1 1</ambient>
@@ -76,10 +104,9 @@
         <collision name='one_three'>
           <pose>-1.1 1.1 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <max_contacts>10</max_contacts>
           <surface>
@@ -96,10 +123,9 @@
         <visual name='one_three'>
           <pose>-1.1 1.1 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <material>
             <ambient>1 1 1 1</ambient>
@@ -111,10 +137,9 @@
         <collision name='two_one'>
           <pose>0 -1.1 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <max_contacts>10</max_contacts>
           <surface>
@@ -131,10 +156,9 @@
         <visual name='two_one'>
           <pose>0 -1.1 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <material>
             <ambient>1 1 1 1</ambient>
@@ -146,10 +170,9 @@
         <collision name='two_two'>
           <pose>0 0 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <max_contacts>10</max_contacts>
           <surface>
@@ -166,10 +189,9 @@
         <visual name='two_two'>
           <pose>0 0 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <material>
             <ambient>1 1 1 1</ambient>
@@ -181,10 +203,9 @@
         <collision name='two_three'>
           <pose>0 1.1 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <max_contacts>10</max_contacts>
           <surface>
@@ -201,10 +222,9 @@
         <visual name='two_three'>
           <pose>0 1.1 0.25 0 0 0</pose>
           <geometry>
-            <cylinder>
-              <radius>0.15</radius>
-              <length>0.5</length>
-            </cylinder>
+            <box>
+              <size>0.3 0.3 0.5</size>
+            </box>
           </geometry>
           <material>
             <ambient>1 1 1 1</ambient>

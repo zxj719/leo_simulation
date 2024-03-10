@@ -22,12 +22,12 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="$(find my_leo)/models/Rocker.dae"/>
+            <mesh filename="file://$(find my_leo)/models/Rocker.dae"/>
           </geometry>
         </visual>
         <collision>
           <geometry>
-            <mesh filename="$(find my_leo)/models/Rocker_outline.stl"/>
+            <mesh filename="file://$(find my_leo)/models/Rocker_outline.stl"/>
           </geometry>
         </collision>
       </link>
@@ -45,7 +45,7 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="$(find my_leo)/models/Wheel${model}.dae"/>
+            <mesh filename="file://$(find my_leo)/models/Wheel${model}.dae"/>
           </geometry>
         </visual>
         <collision>
@@ -62,7 +62,7 @@
         </collision>
         <collision>
           <geometry>
-            <mesh filename="$(find my_leo)/models/Wheel_outline.stl"/>
+            <mesh filename="file://$(find my_leo)/models/Wheel_outline.stl"/>
           </geometry>
         </collision>
       </link>
@@ -80,7 +80,7 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="$(find my_leo)/models/WheelMecanum${model}.dae"/>
+            <mesh filename="file://$(find my_leo)/models/WheelMecanum${model}.dae"/>
           </geometry>
         </visual>
         <collision>
@@ -91,7 +91,7 @@
         </collision>
         <collision>
           <geometry>
-            <mesh filename="$(find my_leo)/models/Mecanum_wheel_outline.stl"/>
+            <mesh filename="file://$(find my_leo)/models/Mecanum_wheel_outline.stl"/>
           </geometry>
         </collision>
       </link>
@@ -115,12 +115,12 @@
       </inertial>
       <visual>
         <geometry>
-          <mesh filename="$(find my_leo)/models/Chassis.dae"/>
+          <mesh filename="file://$(find my_leo)/models/Chassis.dae"/>
         </geometry>
       </visual>
       <collision>
         <geometry>
-          <mesh filename="$(find my_leo)/models/Chassis_outline.stl"/>
+          <mesh filename="file://$(find my_leo)/models/Chassis_outline.stl"/>
         </geometry>
       </collision>
     </link>
@@ -152,7 +152,7 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="$(find my_leo)/models/Antenna.dae"/>
+            <mesh filename="file://$(find my_leo)/models/Antenna.dae"/>
           </geometry>
         </visual>
         <collision>
