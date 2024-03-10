@@ -11,7 +11,7 @@
 ## 1. added frontier exploration algorithm.
 ## 2. added ekf and localization node.
 
-after launch my_leo.launch.py and map_maker.launch.py, new a terminal
+after launch my_leo.launch.py, wair for exploration, then, new a terminal
 ```bash
 ros2 service call /map_saver/save_map nav2_msgs/srv/SaveMap "map_url: './src/my_leo/maps/sim_map'"
 ```
