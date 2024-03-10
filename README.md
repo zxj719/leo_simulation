@@ -7,6 +7,9 @@
 ## 2. integreted control with slam and map_maker in one launch file.
 ## 3. added camera plugin
 ## 4. visualize in rviz but invisible for robot body.
+# 2024.3.10 v4
+## 1. added frontier exploration algorithm.
+## 2. added ekf and localization node.
 
 after launch my_leo.launch.py and map_maker.launch.py, new a terminal
 ```bash
