@@ -10,12 +10,20 @@ import xacro
 def generate_launch_description():
     ld = LaunchDescription()
     pkg_name = 'my_leo'
-
+    remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
     # Include SLAM Toolbox standard launch file
     launch_slamtoolbox = IncludeLaunchDescription(
     PythonLaunchDescriptionSource([get_package_share_directory('slam_toolbox'), '/launch', '/online_async_launch.py']),
     launch_arguments={}.items(),
     )
+
+    launch_gmapping = Node(
+                package="slam_gmapping",
+                executable="slam_gmapping",
+                output="screen",
+                parameters=[{"use_sim_time": True}],
+                remappings=remappings,
+            )
 
     launch_map_saver = IncludeLaunchDescription(
     PythonLaunchDescriptionSource([get_package_share_directory('nav2_map_server'), '/launch', '/map_saver_server.launch.py']),
@@ -36,13 +44,14 @@ def generate_launch_description():
         remappings=[("/cmd_vel", "cmd_vel")],
     )
 
-    remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
+    
 
     lifecycle_nodes = [
         'controller_server',
         'planner_server',
         'behaviour_server',
         'bt_navigator',
+        'smoother_server',
     ]
 
     # LOAD PARAMETERS FROM YAML FILES
@@ -91,6 +100,14 @@ def generate_launch_description():
         remappings=remappings,
     )
 
+    node_smoother_server = Node(
+        package='nav2_smoother',
+        executable='smoother_server',
+        name='smoother_server',
+        output='screen',
+        parameters=[PathJoinSubstitution([get_package_share_directory(pkg_name), 'config', 'simple_smoother.yaml'])],
+    )
+
     # Lifecycle Node Manager to automatically start lifecycles nodes (from list)
     node_lifecycle_manager = Node(
         package='nav2_lifecycle_manager',
@@ -100,15 +117,25 @@ def generate_launch_description():
         parameters=[{'autostart': True}, {'node_names': lifecycle_nodes}],
     )
 
-
+    node_explore = Node(
+        package="explore_lite",
+        name="explore",
+        executable="explore",
+        parameters=[PathJoinSubstitution([get_package_share_directory(pkg_name), 'config', 'params.yaml']), {"use_sim_time": True}],
+        output="screen",
+        remappings=remappings,
+    )
 
     ld.add_action(launch_slamtoolbox)
+    # ld.add_action(launch_gmapping)
     ld.add_action(launch_map_saver)
     # ld.add_action(launch_key_teleop)
     ld.add_action(node_bt_nav)
     ld.add_action(node_behaviour)
     ld.add_action(node_planner)
     ld.add_action(node_controller)
+    ld.add_action(node_smoother_server)
+    ld.add_action(node_explore)
     ld.add_action(node_lifecycle_manager)
 
     return ld

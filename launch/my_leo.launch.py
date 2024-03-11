@@ -95,11 +95,25 @@ def generate_launch_description():
             ('/model/leo_rover/cmd_vel',  '/cmd_vel'),
             ('/model/leo_rover/odom',  '/odom'),
             ('/model/leo_rover/tf',  '/tf'),
-            ('/model/leo_rover/imu/data_raw',  '/imu_raw'),
+            ('/model/leo_rover/imu/data_raw',  '/imu/data_raw'),
             ('/model/leo_rover/joint_states',  '/joint_states'),
             ('/model/leo_rover/scan',  '/scan'),
             ],
         output="screen",
+    )
+
+    imu_filter = Node(
+      package="imu_filter_madgwick",
+      executable="imu_filter_madgwick_node",
+      name="imu_filter_node",
+      parameters=[PathJoinSubstitution([get_package_share_directory(pkg_name),'config','imu_filter_node.yaml'])],
+    )
+
+    ekf_localization = Node(
+       package="robot_localization",
+       executable="ekf_node",
+       name="ekf_node",
+       parameters=[PathJoinSubstitution([get_package_share_directory(pkg_name),'config','ekf_node.yaml'])],
     )
     
     # Camera image bridge
@@ -118,8 +132,8 @@ def generate_launch_description():
     launch_arguments={}.items(),
     )
 
-    launch_map_maker = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource([get_package_share_directory(pkg_name), '/launch', '/map_maker.launch.py']),
+    navigation = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource([get_package_share_directory(pkg_name), '/launch', '/navigation.launch.py']),
     launch_arguments={}.items(),
     )
 
@@ -136,10 +150,10 @@ def generate_launch_description():
     launch_arguments={}.items(),
     )
 
-    automous_exploration = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource([get_package_share_directory('explore_lite'), '/launch', '/explore.launch.py']),
-    launch_arguments={}.items(),
-    )
+    # automous_exploration = IncludeLaunchDescription(
+    # PythonLaunchDescriptionSource([get_package_share_directory('explore_lite'), '/launch', '/explore.launch.py']),
+    # launch_arguments={}.items(),
+    # )
 
     # Add actions to LaunchDescription
     ld.add_action(SetParameter(name='use_sim_time', value=True))
@@ -150,11 +164,12 @@ def generate_launch_description():
     ld.add_action(leo_rover)
     ld.add_action(topic_bridge)
     ld.add_action(image_bridge)
+    ld.add_action(imu_filter)
+    ld.add_action(ekf_localization)
     
     ld.add_action(node_rviz)    
-    ld.add_action(launch_map_maker)
-    ld.add_action(joy_stick)
+    ld.add_action(navigation)
+    # ld.add_action(joy_stick)
     # ld.add_action(twist_mux)
-    # ld.add_action(automous_exploration)
     
     return ld
